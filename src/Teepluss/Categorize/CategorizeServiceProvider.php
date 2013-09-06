@@ -3,8 +3,8 @@
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Teepluss\Categorize\Categories\Provider as CategoryProvider;
-use Teepluss\Categorize\CategoryHierarchy\Provider as CategoryHierarchyProvider;
 use Teepluss\Categorize\CategoryRelates\Provider as CategoryRelateProvider;
+use Teepluss\Categorize\CategoryHierarchy\Provider as CategoryHierarchyProvider;
 
 class CategorizeServiceProvider extends ServiceProvider {
 
@@ -37,20 +37,25 @@ class CategorizeServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->registerCategoryProvider();
+		$this->registerCategoryRelateProvider();
 		$this->registerCategoryHierarchyProvider();
-		$this->registerCategoryRelatedProvider();
 
 		$this->app['categorize'] = $this->app->share(function($app)
 		{
 			return new Categorize(
 				$app['config'],
 				$app['categorize.category'],
-				$app['categorize.categoryHierarchy'],
-				$app['categorize.categoryRelate']
+				$app['categorize.categoryRelate'],
+				$app['categorize.categoryHierarchy']
 			);
 		});
 	}
 
+	/**
+	 * Register category provider.
+	 *
+	 * @return \CategoryProvider
+	 */
 	protected function registerCategoryProvider()
 	{
 		$this->app['categorize.category'] = $this->app->share(function($app)
@@ -61,6 +66,11 @@ class CategorizeServiceProvider extends ServiceProvider {
 		});
 	}
 
+	/**
+	 * Register category hierarchy provider.
+	 *
+	 * @return \CategoryHierarchyProvider
+	 */
 	protected function registerCategoryHierarchyProvider()
 	{
 		$this->app['categorize.categoryHierarchy'] = $this->app->share(function($app)
@@ -71,7 +81,12 @@ class CategorizeServiceProvider extends ServiceProvider {
 		});
 	}
 
-	protected function registerCategoryRelatedProvider()
+	/**
+	 * Register category relate provider.
+	 *
+	 * @return \CategoryHierarchyProvider
+	 */
+	protected function registerCategoryRelateProvider()
 	{
 		$this->app['categorize.categoryRelate'] = $this->app->share(function($app)
 		{

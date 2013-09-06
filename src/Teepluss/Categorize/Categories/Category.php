@@ -1,14 +1,29 @@
 <?php namespace Teepluss\Categorize\Categories;
 
 use Illuminate\Database\Eloquent\Model;
-use Teepluss\Categorize\Categories\CategoryInterface as CategoryInterface;
+use Teepluss\Categorize\Categories\CategoryInterface;
 
 class Category extends Model implements CategoryInterface {
 
+    /**
+     * Model table.
+     *
+     * @var string
+     */
     protected $table = 'categories';
 
+    /**
+     * Guarded.
+     *
+     * @var array
+     */
     protected $guarded = array();
 
+    /**
+     * Model event.
+     *
+     * @return void
+     */
     public static function boot()
     {
         parent::boot();
@@ -17,6 +32,7 @@ class Category extends Model implements CategoryInterface {
         static::deleting(function($model)
         {
             $model->children()->detach();
+
             $model->parents()->detach();
         });
     }

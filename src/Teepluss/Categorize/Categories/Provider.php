@@ -2,6 +2,11 @@
 
 class Provider implements ProviderInterface {
 
+    /**
+     * Default model for category provider.
+     *
+     * @var string
+     */
     protected $model = 'Teepluss\Categorize\Categories\Category';
 
     /**
@@ -19,16 +24,11 @@ class Provider implements ProviderInterface {
     }
 
     /**
-     * Creates an attachment.
+     * Delete method.
      *
-     * @param  array  $results
-     * @return Teepluss\Up\Attachments\AttachmentInterface
+     * @param  integer $id
+     * @return void
      */
-    // public function create(array $results)
-    // {
-    //     return $this->createModel()->add($results);
-    // }
-
     public function delete($id)
     {
         return $this->createModel()->destroy($id);
@@ -42,9 +42,9 @@ class Provider implements ProviderInterface {
      */
     public function findById($id)
     {
-        $attachment = $this->createModel();
+        $category = $this->createModel();
 
-        return $attachment->whereId($id)->first();
+        return $category->whereId($id)->first();
     }
 
     /**
@@ -67,6 +67,20 @@ class Provider implements ProviderInterface {
         $class = '\\'.ltrim($this->model, '\\');
 
         return new $class;
+    }
+
+    /**
+     * Magic method to look up directly from model.
+     *
+     * @param  string $method
+     * @param  array  $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters = array())
+    {
+        $category = $this->createModel();
+
+        return call_user_func_array(array($category, $method), $parameters);
     }
 
 }
