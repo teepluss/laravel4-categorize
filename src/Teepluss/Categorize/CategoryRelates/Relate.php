@@ -1,6 +1,7 @@
 <?php namespace Teepluss\Categorize\CategoryRelates;
 
-use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Database\Eloquent\Model;
+use Teepluss\Categorize\Model;
 use Teepluss\Categorize\CategoryRelates\RelateInterface;
 
 class Relate extends Model implements RelateInterface {
@@ -34,6 +35,16 @@ class Relate extends Model implements RelateInterface {
     public function contentable()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Belongs to category table.
+     *
+     * @return object
+     */
+    public function category()
+    {
+        return $this->belongsTo('\Teepluss\Categorize\Categories\Category');
     }
 
 }

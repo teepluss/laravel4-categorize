@@ -82,6 +82,16 @@ class Categorize {
     }
 
     /**
+     * Get category relate provider.
+     *
+     * @return object
+     */
+    public function getCategoryRelateProvider()
+    {
+        return $this->categoryRelateProvider;
+    }
+
+    /**
      * Get category hierarchy provider.
      *
      * @return object

@@ -58,6 +58,16 @@ class Category extends Model implements CategoryInterface {
     }
 
     /**
+     * Category has many contents.
+     *
+     * @return object
+     */
+    public function relates()
+    {
+        return $this->hasMany('\Teepluss\Categorize\CategoryRelates\Relate');
+    }
+
+    /**
      * Make new category as root.
      *
      * @return object

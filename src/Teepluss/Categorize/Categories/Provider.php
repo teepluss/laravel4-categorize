@@ -78,9 +78,9 @@ class Provider implements ProviderInterface {
      */
     public function __call($method, $parameters = array())
     {
-        $category = $this->createModel();
+        $model = $this->createModel();
 
-        return call_user_func_array(array($category, $method), $parameters);
+        return call_user_func_array(array($model, $method), $parameters);
     }
 
 }
