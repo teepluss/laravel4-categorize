@@ -37,14 +37,27 @@ class Provider implements ProviderInterface {
     /**
      * Find attachment by id.
      *
-     * @param  string $id
-     * @return Attachment
+     * @param  integer $id
+     * @return Category
      */
     public function findById($id)
     {
         $category = $this->createModel();
 
         return $category->whereId($id)->first();
+    }
+
+    /**
+     * Find attachment by name.
+     *
+     * @param  string $name
+     * @return Category
+     */
+    public function findByName($name)
+    {
+        $category = $this->createModel();
+
+        return $category->whereTitle($name)->first();
     }
 
     /**

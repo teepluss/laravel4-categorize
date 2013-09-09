@@ -31,9 +31,116 @@ Publish config using artisan CLI.
 php artisan config:publish teepluss/categorize
 ~~~
 
+Migrate tables.
+
+~~~
+php artisan migrate --package=teepluss/categorize
+~~~
+
 ## Usage
 
-...... Wait a moment.
+Creating category as a root.
+~~~php
+$categorize = Categorize::prepare(array(
+    'type'        => 'Product',
+    'title'       => 'Hardware',
+    'description' => 'Hardware is a ...'
+));
+
+$categorize->makeRoot();
+~~~
+
+Creating category as a child of parent.
+~~~php
+$categorize = Categorize::prepare(array(
+    'type'        => 'Product',
+    'title'       => 'Hardware - CPU',
+    'description' => 'CPU is a ...'
+));
+
+$parent = Categorize::getCategoryProvider()->findById(1);
+// or
+// $parent = Categorize::getCategoryProvider()->findByName('Hardware');
+
+$categorize->makeChildOf($parent);
+~~~
+
+Moving to a new root.
+~~~php
+$category = Categorize::getCategoryProvider()->findByName('Hardware - CPU');
+
+$category->makeRoot();
+~~~
+
+Moving to another parent.
+~~~php
+$category = Categorize::getCategoryProvider()->findByName('Hardware - CPU');
+
+$parent = Categorize::getCategoryProvider()->findByName('Software');
+
+$category->makeChildOf($root);
+~~~
+
+Update information.
+~~~php
+$category = Categorize::getCategoryProvider()->findByName('Hardware - CPU');
+$category->fill(array(
+    'title'       => 'Software - Office',
+    'description' => 'Documenting'
+));
+
+$category->save();
+~~~
+
+Delete with children.
+~~~php
+$category = Categorize::getCategoryProvider()->findByName('Hardware');
+
+$category->deleteWithChildren();
+~~~
+
+List category as tree.
+~~~php
+$category = Categorize::getCategoryProvider()->findByName('Hardware');
+
+var_dump($category->getChildren()->toArray());
+~~~
+
+Build categories as tree.
+~~~php
+$categories = Categorize::getCategoryProvider()->whereType('Blog')->get();
+
+var_dump(Categorize::tree($categories)->toArray());
+~~~
+
+## Using categorize with model.
+
+Define relation to model
+~~~php
+public function categories()
+{
+    return $this->morphMany('Teepluss\Categorize\CategoryRelates\Relate', 'contentable');
+}
+~~~
+
+Push content to a category.
+~~~php
+$category = Categorize::getCategoryProvider()->findByName('Hardware - CPU');
+
+$blog = Blog::find(24);
+$blog->categories()->create(array('category_id' => $category->id));
+~~~
+
+List contents that belongs to a category.
+~~~php
+$contentIds = Categorize::getCategoryProvider()->findById(1)->relates()->whereContentableType('Blog')->lists('contentable_id');
+// or
+// $contentIds = Categorize::getCategoryRelateProvider()->whereContentableType('Blog')->whereCategoryId(1)->lists('contentable_id');
+
+$blogs = Blog::find($contentIds);
+
+var_dump($blogs->toArray());
+~~~
 
 ## Support or Contact
 

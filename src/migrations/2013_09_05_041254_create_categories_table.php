@@ -11,7 +11,17 @@ class CreateCategoriesTable extends Migration {
 	 */
 	public function up()
 	{
-		//
+		Schema::create('categories', function($table)
+		{
+			$table->engine = 'InnoDB';
+
+		    $table->increments('id');
+		    $table->string('type', 100)->index();
+		    $table->string('title');
+		    $table->text('description');
+		    $table->integer('weight')->index();
+		    $table->timestamps();
+		});
 	}
 
 	/**
@@ -21,7 +31,7 @@ class CreateCategoriesTable extends Migration {
 	 */
 	public function down()
 	{
-		//
+		Schema::drop('categories');
 	}
 
 }
