@@ -24,6 +24,26 @@ class Provider implements ProviderInterface {
     }
 
     /**
+     * Get only root category.
+     *
+     * @return Category
+     */
+    public function root()
+    {
+        $category = $this->createModel();
+
+        $category = $category->whereExists(function($query)
+        {
+            $query->select(\DB::raw(1))
+                  ->from('category_hierarchy')
+                  ->whereRaw('categories.id = category_hierarchy.category_id')
+                  ->where('category_hierarchy.category_parent_id', 0);
+        });
+
+        return $category;
+    }
+
+    /**
      * Delete method.
      *
      * @param  integer $id

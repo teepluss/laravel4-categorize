@@ -110,6 +110,10 @@ Build categories as tree.
 ~~~php
 $categories = Categorize::getCategoryProvider()->whereType('Blog')->get();
 
+// Build only root categories.
+
+$categories = Categorize::getCategoryProvider()->root()->whereType('Blog')->get();
+
 var_dump(Categorize::tree($categories)->toArray());
 ~~~
 
