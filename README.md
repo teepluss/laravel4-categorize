@@ -78,7 +78,7 @@ $category = Categorize::getCategoryProvider()->findByName('Hardware - CPU');
 
 $parent = Categorize::getCategoryProvider()->findByName('Software');
 
-$category->makeChildOf($root);
+$category->makeChildOf($parent);
 ~~~
 
 Update information.
