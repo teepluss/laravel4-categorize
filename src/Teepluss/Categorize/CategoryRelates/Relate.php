@@ -1,7 +1,6 @@
 <?php namespace Teepluss\Categorize\CategoryRelates;
 
-//use Illuminate\Database\Eloquent\Model;
-use Teepluss\Categorize\Model;
+use Illuminate\Database\Eloquent\Model;
 use Teepluss\Categorize\CategoryRelates\RelateInterface;
 
 class Relate extends Model implements RelateInterface {
