@@ -20,7 +20,6 @@ class CreateCategoriesTable extends Migration {
 	    $table->string('title');
 	    $table->text('description');
 	    $table->string('image', 100);
-            $table->integer('position');
             $table->boolean('active')->default(0);
 	    $table->integer('weight')->index();
 	    $table->timestamps();
