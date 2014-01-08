@@ -21,7 +21,7 @@ class CreateCategoriesTable extends Migration {
 	    $table->text('description');
 	    $table->string('image', 100);
             $table->integer('position');
-            $table->boolean('active');
+            $table->boolean('active')->default(0);
 	    $table->integer('weight')->index();
 	    $table->timestamps();
 	});
