@@ -36,7 +36,7 @@ class Provider implements ProviderInterface {
         {
             $query->select(\DB::raw(1))
                   ->from('category_hierarchy')
-                  ->whereRaw('categories.id = category_hierarchy.category_id')
+                  ->where('categories.id', 'category_hierarchy.category_id')
                   ->where('category_hierarchy.category_parent_id', 0);
         });
 
