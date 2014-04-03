@@ -1,5 +1,7 @@
 <?php namespace Teepluss\Categorize\Categories;
 
+use \DB;
+
 class Provider implements ProviderInterface {
 
     /**
@@ -36,7 +38,7 @@ class Provider implements ProviderInterface {
         {
             $query->select(\DB::raw(1))
                   ->from('category_hierarchy')
-                  ->where('categories.id', 'category_hierarchy.category_id')
+                  ->whereRaw(DB::getTablePrefix().'categories.id = '.DB::getTablePrefix().'category_hierarchy.category_id')
                   ->where('category_hierarchy.category_parent_id', 0);
         });
 
