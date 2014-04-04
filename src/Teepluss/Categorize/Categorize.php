@@ -109,7 +109,16 @@ class Categorize {
      */
     public function tree(Collection $source)
     {
-        $source->load(implode('.', array_fill(0, 20, 'children')));
+        $source->load(implode('.', array_fill(0, 20, 'children')), 'parents');
+        
+        $source = $source->filter(function($item) {
+	        if ($item->parents->count() > 0)
+	        {
+		        return false;
+	        }
+	        
+	        return true;
+        })->values();
 
         return $source;
     }
